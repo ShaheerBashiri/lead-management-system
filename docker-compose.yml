@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./lead-management-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./lead-management-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/lead_management
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:8.0.5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
